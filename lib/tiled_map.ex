@@ -1,4 +1,11 @@
 defmodule TiledMap do
+
+  @moduledoc """
+    Parses a [Tiled JSON map](https://github.com/bjorn/tiled/wiki/JSON-Map-Format)
+    as exported by the [Tiled map editor](http://www.mapeditor.org/)
+    from file or string.
+  """
+
   defstruct name: "",
             width: 0,
             height: 0,

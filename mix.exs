@@ -9,6 +9,11 @@ defmodule TiledMap.Mixfile do
      start_permanent: Mix.env == :prod,
      description: "Basic parsing of JSON Map Format from Tiled map editor",
      package: package,
+     source_url: "https://github.com/kentdahl/tiled_map",
+     homepage_url: "https://github.com/kentdahl/tiled_map",
+     docs: [
+        extras: ["README.md"]
+      ],
      deps: deps]
   end
 
@@ -38,7 +43,9 @@ defmodule TiledMap.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:poison, "~> 2.0"}
+      {:poison, "~> 2.0"},
+      {:earmark, ">= 0.0.0", only: :dev},
+      {:ex_doc,  "~> 0.10",  only: :dev}
     ]
   end
 end
