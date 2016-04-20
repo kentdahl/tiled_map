@@ -7,7 +7,17 @@ defmodule TiledMap.Mixfile do
      elixir: "~> 1.2",
      build_embedded:  Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: "Basic parsing of JSON Map Format from Tiled map editor",
+     package: package,
      deps: deps]
+  end
+
+  def package do
+    [
+      maintainers: ["Kent Dahl"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/kentdahl/tiled_map"}
+    ]
   end
 
   # Configuration for the OTP application
