@@ -24,7 +24,7 @@ defmodule TiledMap do
   end
 
   def parse_json(json_str) do
-    data = Poison.decode(json_str,
+    Poison.decode(json_str,
       as:
         %TiledMap{
           layers: [
@@ -36,4 +36,10 @@ defmodule TiledMap do
         }
       )
   end
+
+  def get_layer(map, layer_name) do
+    map.layers
+    |> Enum.find(fn layer -> layer.name == layer_name end)
+  end
+
 end
