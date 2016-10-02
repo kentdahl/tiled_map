@@ -16,22 +16,23 @@ defmodule TiledMapTest.ArenaMap000Test do
   end
 
   test "background layer", context do
+    alias TiledMap.Layer, as: TMLayer
     map = context[:map]
     background = TiledMap.get_layer(map, "Background")
     assert background.name == "Background"
-    assert TiledMap.Layer.tiles?(background)
-    assert not TiledMap.Layer.objects?(background)
+    assert TMLayer.tiles?(background)
+    assert not TMLayer.objects?(background)
 
     assert is_tuple(background._data)
     assert tuple_size(background._data) == map.height * map.width
 
-    assert TiledMap.Layer.tile_at(background,  0,  0) == 69
-    assert TiledMap.Layer.tile_at(background,  8,  0) == 83
-    assert TiledMap.Layer.tile_at(background,  8, 19) == 79
-    assert TiledMap.Layer.tile_at(background, 19, 19) == 69
+    assert TMLayer.tile_at(background,  0,  0) == 69
+    assert TMLayer.tile_at(background,  8,  0) == 83
+    assert TMLayer.tile_at(background,  8, 19) == 79
+    assert TMLayer.tile_at(background, 19, 19) == 69
 
     assert_raise ArgumentError, fn ->
-      TiledMap.Layer.tile_at(background, 20, 20) == 83
+      TMLayer.tile_at(background, 20, 20) == 83
     end
   end
 
@@ -44,7 +45,7 @@ defmodule TiledMapTest.ArenaMap000Test do
     obj_list = ent_layer.objects
     assert length(obj_list) == 4
 
-    [obj|more_objs] = obj_list
+    [obj|_more_objs] = obj_list
     assert obj.gid == 27
     assert obj.x == 512
     assert obj.y == 480
@@ -56,5 +57,27 @@ defmodule TiledMapTest.ArenaMap000Test do
     assert TiledMap.Object.property(obj, "multiplayerSpawn") == true
   end
 
+
+  test "tile set", context do
+    alias TiledMap.TileSet, as: TS
+    map = context[:map]
+    ts = TiledMap.get_tileset(map, "sprites")
+    assert ts.name == "sprites"
+    assert ts.firstgid == 1
+    assert ts.tilecount == 90
+    assert ts.columns   == 10
+
+    assert TS.tile_properties(ts, 26)["multiplayerSpawn"] == true
+    assert TS.tile_properties(ts, 30)["type"] == "Key"
+    assert TS.tile_properties(ts,"39")["type"] == "Exit"
+
+    [yeldoor, bludoor, reddoor] = 33..35 |> Enum.map(&(TS.tile_properties(ts,&1)))
+    assert yeldoor["type"] == "Door"
+    assert yeldoor["keyColor"] == "yellow"
+    assert bludoor["keyColor"] == "blue"
+    assert reddoor["keyColor"] == "red"
+
+    assert TS.tile_properties(ts, 89)["blocked"] == true
+  end
 
 end

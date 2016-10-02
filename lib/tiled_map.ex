@@ -38,8 +38,12 @@ defmodule TiledMap do
   end
 
   def get_layer(map, layer_name) do
-    map.layers
-    |> Enum.find(fn layer -> layer.name == layer_name end)
+    map.layers |> Enum.find(fn layer -> layer.name == layer_name end)
   end
+
+  def get_tileset(map, tileset_name) do
+    map.tilesets |> Enum.find(fn tileset -> tileset.name == tileset_name end)
+  end
+
 
 end
